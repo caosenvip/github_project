@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    /*
+    * 方法1：样式实现
+    *   不给html,body设置height:100%，输入框就会自动上滑，不会被键盘遮挡
+    *   弊端：很多时候自适应需要样式，此时不适应
+    *
+    * */
+
+
+
+    /*
+    * 方法2：scrollIntoView
+    * scrollIntoView(alignWithTop)  滚动浏览器窗口或容器元素，以便在当前视窗的可见范围看见当前元素。
+    * 如果alignWithTop为true，或者省略它，窗口会尽可能滚动到自身顶部与元素顶部平齐。
+    * 目前各浏览器均支持！
+    *
+    * */
+    var clientHeight = document.body.clientHeight;
+    var _focusElem = null; //输入框焦点
+    //利用捕获事件监听输入框等focus动作
+    document.body.addEventListener("focus", function(e) {
+        _focusElem = e.target || e.srcElement;
+    }, true);
+    //因为存在软键盘显示而屏幕大小还没被改变，所以以窗体（屏幕显示）大小改变为准
+    window.addEventListener("resize", function() {
+        if (_focusElem && document.body.clientHeight < clientHeight) {
+            //焦点元素滚动到可视范围的底部(false为底部,true为顶部)
+            _focusElem.scrollIntoView(false);
+        }
+    });
+
+</script>
+</html>
